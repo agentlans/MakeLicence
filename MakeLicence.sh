@@ -20,7 +20,7 @@ Usage: MakeLicence.sh [license name] [language] [program name]
 
 To customize the year and copyright holder, set the YEAR and AUTHOR environment variables.
 
-licence name:   gpl, apache, mit, bsd
+licence name:   gpl3, apache, mit, bsd3, mpl, cc0
 language:       for example, c, java, python, bash, javascript
 program name:   (optional) name of the program in the copyright
 HELP
@@ -53,8 +53,13 @@ print_repeat() {
 LICENCE=`lowercase $LICENCE`
 SCRIPT_DIR=`dirname "$0"` # Directory the script is in
 
-if [[ $PROG_NAME == "" && $LICENCE == "gpl" ]]; then
-	LICENCE=$SCRIPT_DIR/'gpl_plain.txt'
+if [[ $PROG_NAME == "" ]]; then
+	case $LICENCE in
+		gpl3) LICENCE=$SCRIPT_DIR/gpl3_plain.txt ;;
+		lgpl3) LICENCE=$SCRIPT_DIR/lgpl3_plain.txt ;;
+		cc0) LICENCE=$SCRIPT_DIR/cc0_plain.txt ;;
+		*) LICENCE=$SCRIPT_DIR/$LICENCE.txt ;;
+	esac
 else
 	LICENCE=$SCRIPT_DIR/$LICENCE.txt
 fi
@@ -88,6 +93,8 @@ case $LANG in
 	ruby) STYLE="hash" ;;
 	r) STYLE="hash" ;;
 	lisp) STYLE="lisp" ;;
+	scheme) STYLE="lisp" ;;
+	racket) STYLE="lisp" ;;
 	haskell) STYLE="dash" ;;
 	html) STYLE="html" ;;
 	css) STYLE="c" ;;
@@ -124,6 +131,7 @@ case $STYLE in
 	dash) LINECOMMENT="-- " ;;
 	basic) LINECOMMENT="' " ;;
 	exclamation) LINECOMMENT="! " ;;
+	html) LINECOMMENT="   - " ;;
 esac
 
 LINECOMMENT_LEN=${#LINECOMMENT}
@@ -135,7 +143,7 @@ if [[ $STYLE == "c" ]]; then
 	echo
 fi
 if [[ $STYLE == "html" ]]; then
-	echo "<!--"
+	echo "<!-- "
 fi
 if [[ $STYLE == "ocaml" ]]; then
 	echo "(* "
@@ -151,7 +159,7 @@ if [[ $STYLE == "c" ]]; then
 	echo
 fi
 if [[ $STYLE == "html" ]]; then
-	echo "-->"
+	echo " -->"
 fi
 if [[ $STYLE == "ocaml" ]]; then
 	echo "*)"
