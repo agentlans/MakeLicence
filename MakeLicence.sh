@@ -52,16 +52,17 @@ print_repeat() {
 
 LICENCE=`lowercase $LICENCE`
 SCRIPT_DIR=`dirname "$0"` # Directory the script is in
+LICENCE_DIR=$SCRIPT_DIR/Licences
 
 if [[ $PROG_NAME == "" ]]; then
 	case $LICENCE in
-		gpl3) LICENCE=$SCRIPT_DIR/gpl3_plain.txt ;;
-		lgpl3) LICENCE=$SCRIPT_DIR/lgpl3_plain.txt ;;
-		cc0) LICENCE=$SCRIPT_DIR/cc0_plain.txt ;;
-		*) LICENCE=$SCRIPT_DIR/$LICENCE.txt ;;
+		gpl3) LICENCE=$LICENCE_DIR/gpl3_plain.txt ;;
+		lgpl3) LICENCE=$LICENCE_DIR/lgpl3_plain.txt ;;
+		cc0) LICENCE=$LICENCE_DIR/cc0_plain.txt ;;
+		*) LICENCE=$LICENCE_DIR/$LICENCE.txt ;;
 	esac
 else
-	LICENCE=$SCRIPT_DIR/$LICENCE.txt
+	LICENCE=$LICENCE_DIR/$LICENCE.txt
 fi
 
 # Set default year
